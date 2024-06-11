@@ -12,7 +12,7 @@ import {
 import {
   EmailSenderAccount,
   EmailSenderAccountInput,
-} from "../../models/email-sender-account";
+} from "../models/email-sender-account";
 import { standardizeEmailSenderAccount } from "./standardize-email-sender-account.fn";
 
 const standardizeForced = (account: EmailSenderAccount): EmailSenderAccount => {

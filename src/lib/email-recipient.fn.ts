@@ -9,10 +9,7 @@ import {
   queryDataToQueryObject,
   throwGQLErrors,
 } from "graphql-client-utilities";
-import {
-  EmailRecipient,
-  EmailRecipientInput,
-} from "../../models/email-recipient";
+import { EmailRecipient, EmailRecipientInput } from "../models/email-recipient";
 import { standardizeEmailRecipient } from "./standardize-email-recipient.fn";
 
 const standardizeForced = (recipient: EmailRecipient): EmailRecipient => {

@@ -1,4 +1,4 @@
-import { EmailRecipient } from "../../models/email-recipient";
+import { EmailRecipient } from "../models/email-recipient";
 import { standardizeEmailEntityModel } from "./standardize-email-entity-model.fn";
 
 export const standardizeEmailRecipient = (

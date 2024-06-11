@@ -9,7 +9,7 @@ import {
   queryDataToQueryObject,
   throwGQLErrors,
 } from "graphql-client-utilities";
-import { EmailQueue, EmailQueueInput } from "../../models/email-queue";
+import { EmailQueue, EmailQueueInput } from "../models/email-queue";
 import { standardizeEmailQueue } from "./standardize-email-queue.fn";
 
 const standardizeForce = (queue: EmailQueue): EmailQueue => {
@@ -163,7 +163,7 @@ export const updateEmailMessageQueue = (
     .then(standardizeOptional);
 };
 
-export const deleteEmailMessage = (
+export const deleteEmailQueue = (
   queryExecutor: QueryExecutor,
   id: string
 ): Promise<boolean> => {

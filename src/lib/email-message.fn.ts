@@ -9,7 +9,7 @@ import {
   queryDataToQueryObject,
   throwGQLErrors,
 } from "graphql-client-utilities";
-import { EmailMessage, EmailMessageInput } from "../../models/email-message";
+import { EmailMessage, EmailMessageInput } from "../models/email-message";
 import { standardizeEmailMessage } from "./standardize-email-message.fn";
 
 const standardizeForced = (message: EmailMessage): EmailMessage => {

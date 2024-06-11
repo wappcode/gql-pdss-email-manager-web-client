@@ -1,4 +1,4 @@
-import { EmailEntityModel } from "../../models/email-entity-model";
+import { EmailEntityModel } from "../models/email-entity-model";
 
 export const standardizeEmailDate = (date?: unknown): Date | undefined => {
   if (date instanceof Date) {
