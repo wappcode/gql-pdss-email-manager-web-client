@@ -7,7 +7,6 @@ export interface EmailSenderAccount extends EmailEntityModel {
   host: string;
   auth: boolean;
   username: string;
-  password: string;
   secure?: string;
   port: number;
   maxDeliveriesPerHour: number;

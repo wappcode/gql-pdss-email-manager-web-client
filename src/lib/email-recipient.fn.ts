@@ -66,7 +66,10 @@ export const getEmailRecipients = (
                  endCursor
                 }
                 edges {
-                    ...${finalFragment.operationName}
+                cursor
+                node {
+                   ...${finalFragment.operationName}
+                }
                 }
             }
         }

@@ -30,10 +30,13 @@ export const getFragmentEmailMessage = (): GQLQueryObject => {
   const fragment = gqlparse`
 
         fragment fragmentEmailMessage on EmailMessage {
+            id
             title
             body
             plainTextBody
             chartset
+            created
+            updated
         }
 
     `;
@@ -61,8 +64,11 @@ export const getEmailMessages = (
              endCursor
             }
             edges {
-                ...${finalFragment.operationName}
-                }
+            cursor
+            node {
+               ...${finalFragment.operationName}
+            }
+             
             }
         }
             ${finalFragment.query}

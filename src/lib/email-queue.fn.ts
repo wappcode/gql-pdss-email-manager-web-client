@@ -28,6 +28,7 @@ export const getFragmentEmailQueue = (): GQLQueryObject => {
   const fragment = gqlparse`
 
         fragment fragmentEmailQueue on EmailQueue {
+            id
             title
             subject
             replyTo
@@ -43,6 +44,8 @@ export const getFragmentEmailQueue = (): GQLQueryObject => {
                 title
                 email
             }
+            created
+            updated
   
         }
 
@@ -70,8 +73,13 @@ export const getEmailQueues = (
              startCursor
              endCursor
             }
+             
                 edges {
-                ...${finalFragment.operationName}
+                cursor
+                node {
+                   ...${finalFragment.operationName}
+                }
+                
                   }
             }
         }

@@ -30,15 +30,17 @@ const standardizeOptional = (
 export const getFragmentEmailSenderAccount = (): GQLQueryObject => {
   const fragment = gqlparse`
     fragment fragmentEmailSenderAccount on EmailSenderAccount {
+        id
         title
         email
         host
         auth
         username
-        password
         secure
         port
         maxDeliveriesPerHour
+        created 
+        updated
     }
     `;
   return fragment;
@@ -65,7 +67,11 @@ export const getEmailSenderAccounts = (
                  endCursor
                 }
                 edges {
-                    ...${finalFragment.operationName}
+                cursor
+                node {
+                   ...${finalFragment.operationName}
+                }
+                 
                 }
             }
         }
@@ -175,4 +181,20 @@ export const deleteEmailSenderAccount = (
   return queryExecutor<{ success: boolean }>(query, { id })
     .then(throwGQLErrors)
     .then((result) => result.data.success);
+};
+
+export const createEmailSenderAccountPartialInputFromEmailSenderAccount = (
+  senderAccount: EmailSenderAccount
+): Partial<EmailSenderAccountInput> => {
+  const input: Partial<EmailSenderAccountInput> = {
+    title: senderAccount.title,
+    email: senderAccount.email,
+    host: senderAccount.host,
+    auth: senderAccount.auth,
+    username: senderAccount.username,
+    secure: senderAccount.secure,
+    port: senderAccount.port,
+    maxDeliveriesPerHour: senderAccount.maxDeliveriesPerHour,
+  };
+  return input;
 };
