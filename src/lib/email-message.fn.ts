@@ -56,20 +56,20 @@ export const getEmailMessages = (
 
         query QueryGetEmailMessages($input: ConnectionInput) {
             connection: getEmailMessages(input: $input) {
-            totalCount
-            pageInfo {
-             hasNextPage
-             hasPreviousPage
-             startCursor
-             endCursor
+              totalCount
+              pageInfo {
+                hasNextPage
+                hasPreviousPage
+                startCursor
+                endCursor
+              }
+              edges {
+              cursor
+              node {
+                ...${finalFragment.operationName}
+              }
             }
-            edges {
-            cursor
-            node {
-               ...${finalFragment.operationName}
-            }
-             
-            }
+          }
         }
             ${finalFragment.query}
         `;
@@ -177,4 +177,16 @@ export const deleteEmailMessage = (
   })
     .then(throwGQLErrors)
     .then((result) => result.data.success);
+};
+
+export const createEmailMessageInputFormEmailMessage = (
+  message: EmailMessage
+): EmailMessageInput => {
+  const input: EmailMessageInput = {
+    title: message.title,
+    body: message.body,
+    plainTextBody: message.plainTextBody,
+    chartset: message.chartset,
+  };
+  return input;
 };
