@@ -13,3 +13,14 @@ export interface EmailSenderAccount extends EmailEntityModel {
   maxDeliveriesPerHour: number;
   queues: EmailQueue[];
 }
+export interface EmailSenderAccountInput {
+  title: string;
+  email: string;
+  host: string;
+  auth: boolean;
+  username: string;
+  password: string;
+  secure?: string;
+  port: number;
+  maxDeliveriesPerHour: number;
+}

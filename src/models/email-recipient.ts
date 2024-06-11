@@ -20,3 +20,14 @@ export interface EmailRecipient<P = unknown> extends EmailEntityModel {
   ownerCode?: string;
   queue: EmailQueue;
 }
+export interface EmailRecipientInput {
+  email: string;
+  name: string;
+  priority: number;
+  params: string;
+  status: EmailRecipientStatus;
+  sent: boolean;
+  sendingDate: string;
+  ownerCode?: string;
+  queue: string;
+}

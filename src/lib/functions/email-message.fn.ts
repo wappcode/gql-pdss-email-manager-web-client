@@ -12,7 +12,7 @@ import {
 import { EmailMessage, EmailMessageInput } from "../../models/email-message";
 import { standardizeEmailMessage } from "./standardize-email-message.fn";
 
-const standardizeForce = (message: EmailMessage): EmailMessage => {
+const standardizeForced = (message: EmailMessage): EmailMessage => {
   const standar = standardizeEmailMessage(message);
   return standar;
 };
@@ -22,7 +22,7 @@ const standardizeOptional = (
   if (!message) {
     return undefined;
   }
-  const standar = standardizeForce(message);
+  const standar = standardizeForced(message);
   return standar;
 };
 
@@ -53,7 +53,14 @@ export const getEmailMessages = (
 
         query QueryGetEmailMessages($input: ConnectionInput) {
             connection: getEmailMessages(input: $input) {
-                edges {
+            totalCount
+            pageInfo {
+             hasNextPage
+             hasPreviousPage
+             startCursor
+             endCursor
+            }
+            edges {
                 ...${finalFragment.operationName}
                 }
             }
@@ -66,7 +73,7 @@ export const getEmailMessages = (
   })
     .then(throwGQLErrors)
     .then((result) => result.data.connection)
-    .then(mapConnectionNodesF(standardizeForce));
+    .then(mapConnectionNodesF(standardizeForced));
 };
 
 export const getEmailMessage = (
@@ -165,5 +172,3 @@ export const deleteEmailMessage = (
     .then(throwGQLErrors)
     .then((result) => result.data.success);
 };
-
-// deleteEmailMessage

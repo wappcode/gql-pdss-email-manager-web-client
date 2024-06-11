@@ -14,3 +14,22 @@ export interface EmailQueue extends EmailEntityModel {
   senderAccount: EmailSenderAccount;
   recipients: EmailRecipient[];
 }
+export interface EmailQueueInput {
+  title: string;
+  subject: string;
+  replyTo: string;
+  replyToName?: string;
+  senderName?: string;
+  senderAddress?: string;
+  message: string;
+  senderAccount: string;
+  recipients?: CreateEmailQueueRecipientsInput[];
+}
+export interface CreateEmailQueueRecipientsInput {
+  name: string;
+  email: string;
+  params?: string;
+  sendingDate: string;
+  priority?: number;
+  ownerCode?: string;
+}
