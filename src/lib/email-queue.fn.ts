@@ -27,7 +27,7 @@ const standardizeOptional = (queue?: EmailQueue): EmailQueue | undefined => {
 export const getFragmentEmailQueue = (): GQLQueryObject => {
   const fragment = gqlparse`
 
-        fragment fragmentEmailQueue on EmailQueue {
+    fragment fragmentEmailQueue on EmailQueue {
             id
             title
             subject
@@ -35,18 +35,16 @@ export const getFragmentEmailQueue = (): GQLQueryObject => {
             replyToName
             senderName
             senderAddress
-            message: {
-            id
-            title
+    				senderAccount{
+              id
+              title
             }
-            senderAccount{
-                id
-                title
-                email
+            message{
+              id
+              title
             }
             created
             updated
-  
         }
 
     `;
@@ -146,7 +144,7 @@ export const createEmailQueue = (
     .then(standardizeOptional);
 };
 
-export const updateEmailMessageQueue = (
+export const updateEmailQueue = (
   queryExecutor: QueryExecutor,
   id: string,
   input: Partial<EmailQueueInput>,
@@ -184,4 +182,18 @@ export const deleteEmailQueue = (
   return queryExecutor<{ queue: boolean }>(query, { id })
     .then(throwGQLErrors)
     .then((result) => result.data.queue);
+};
+
+export const createEmailQueueInputFormEmailQueue = (queue: EmailQueue) => {
+  const input: Partial<EmailQueueInput> = {
+    title: queue.title,
+    subject: queue.subject,
+    replyTo: queue.replyTo,
+    replyToName: queue.replyToName,
+    senderName: queue.senderName,
+    senderAddress: queue.senderAddress,
+    message: queue.message.id,
+    senderAccount: queue.senderAccount.id,
+  };
+  return input;
 };
