@@ -39,6 +39,8 @@ export const getFragmentEmailRecipient = (): GQLQueryObject => {
         viewed
         ownerCode
         queue{
+        id
+        title
         }
         created
         updated
