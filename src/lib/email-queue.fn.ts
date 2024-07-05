@@ -176,12 +176,100 @@ export const deleteEmailQueue = (
   const query = gqlparse`
 
         mutation MutationDeleteEmailQueue($id: ID!) {
-            queue: deleteEmailQueue(id: $id)
+            success: deleteEmailQueue(id: $id)
         }
         `;
-  return queryExecutor<{ queue: boolean }>(query, { id })
+  return queryExecutor<{ success: boolean }>(query, { id })
     .then(throwGQLErrors)
-    .then((result) => result.data.queue);
+    .then((result) => result.data.success);
+};
+
+/**
+ * Cancela a los elementos de una lista solo aplica a los que estan en estatus PAUSE y WAITING
+ * @param queryExecutor
+ * @param id
+ * @returns
+ */
+export const cancelEmailQueue = (
+  queryExecutor: QueryExecutor,
+  id: string,
+  fragment?: GQLQueryData
+): Promise<EmailQueue | undefined> => {
+  const finalFragment = fragment
+    ? queryDataToQueryObject(fragment)
+    : getFragmentEmailQueue();
+
+  const query = gqlparse`
+
+        mutation MutationCancelEmailQueue($id: ID!) {
+            queue: cancelEmailQueue(id: $id){
+              ...${finalFragment.operationName}
+            }
+            }
+            ${finalFragment.query}
+        `;
+  return queryExecutor<{ queue: EmailQueue | undefined }>(query, { id })
+    .then(throwGQLErrors)
+    .then((result) => result.data.queue)
+    .then(standardizeOptional);
+};
+/**
+ * Activa o pone estatus WAITING a los elementos de una lista solo aplica a los que estan en estatus PAUSE
+ * @param queryExecutor
+ * @param id
+ * @returns
+ */
+export const resumeEmailQueue = (
+  queryExecutor: QueryExecutor,
+  id: string,
+  fragment?: GQLQueryData
+): Promise<EmailQueue | undefined> => {
+  const finalFragment = fragment
+    ? queryDataToQueryObject(fragment)
+    : getFragmentEmailQueue();
+
+  const query = gqlparse`
+
+        mutation MutationResumeEmailQueue($id: ID!) {
+            queue: resumeEmailQueue(id: $id){
+              ...${finalFragment.operationName}
+            }
+            }
+            ${finalFragment.query}
+        `;
+  return queryExecutor<{ queue: EmailQueue | undefined }>(query, { id })
+    .then(throwGQLErrors)
+    .then((result) => result.data.queue)
+    .then(standardizeOptional);
+};
+/**
+ * Pausa los elmentos de una lista solo aplica a los que estan en estatus WAITING
+ * @param queryExecutor
+ * @param id
+ * @returns
+ */
+export const pauseEmailQueue = (
+  queryExecutor: QueryExecutor,
+  id: string,
+  fragment?: GQLQueryData
+): Promise<EmailQueue | undefined> => {
+  const finalFragment = fragment
+    ? queryDataToQueryObject(fragment)
+    : getFragmentEmailQueue();
+
+  const query = gqlparse`
+
+        mutation MutationPauseEmailQueue($id: ID!) {
+            queue: pauseEmailQueue(id: $id){
+              ...${finalFragment.operationName}
+            }
+            }
+            ${finalFragment.query}
+        `;
+  return queryExecutor<{ queue: EmailQueue | undefined }>(query, { id })
+    .then(throwGQLErrors)
+    .then((result) => result.data.queue)
+    .then(standardizeOptional);
 };
 
 export const createEmailQueueInputFormEmailQueue = (queue: EmailQueue) => {
