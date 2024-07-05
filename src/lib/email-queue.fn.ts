@@ -205,8 +205,8 @@ export const cancelEmailQueue = (
             queue: cancelEmailQueue(id: $id){
               ...${finalFragment.operationName}
             }
-              ${finalFragment.query}
-        }
+            }
+            ${finalFragment.query}
         `;
   return queryExecutor<{ queue: EmailQueue | undefined }>(query, { id })
     .then(throwGQLErrors)
@@ -234,8 +234,8 @@ export const resumeEmailQueue = (
             queue: resumeEmailQueue(id: $id){
               ...${finalFragment.operationName}
             }
-              ${finalFragment.query}
-        }
+            }
+            ${finalFragment.query}
         `;
   return queryExecutor<{ queue: EmailQueue | undefined }>(query, { id })
     .then(throwGQLErrors)
@@ -263,8 +263,8 @@ export const pauseEmailQueue = (
             queue: pauseEmailQueue(id: $id){
               ...${finalFragment.operationName}
             }
-              ${finalFragment.query}
-        }
+            }
+            ${finalFragment.query}
         `;
   return queryExecutor<{ queue: EmailQueue | undefined }>(query, { id })
     .then(throwGQLErrors)
