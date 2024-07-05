@@ -9,7 +9,11 @@ import {
   queryDataToQueryObject,
   throwGQLErrors,
 } from "graphql-client-utilities";
-import { EmailRecipient, EmailRecipientInput } from "../models/email-recipient";
+import {
+  EmailRecipient,
+  EmailRecipientForwardInput,
+  EmailRecipientInput,
+} from "../models/email-recipient";
 import { standardizeEmailQueue } from "./standardize-email-queue.fn";
 import { standardizeEmailRecipient } from "./standardize-email-recipient.fn";
 
@@ -182,4 +186,32 @@ export const deleteEmailRecipient = (
   return queryExecutor<{ success: boolean }>(query, { id })
     .then(throwGQLErrors)
     .then((result) => result.data.success);
+};
+
+export const forwardEmailRecipient = (
+  queryExecutor: QueryExecutor,
+  id: string,
+  input: EmailRecipientForwardInput,
+  fragment?: GQLQueryData
+): Promise<EmailRecipient | undefined> => {
+  const finalFragment = fragment
+    ? queryDataToQueryObject(fragment)
+    : getFragmentEmailRecipient();
+
+  const query = gqlparse`
+
+        mutation MutationForwardEmailRecipient($id: ID!, $input: EmailRecipientForwardInput!) {
+            recipient: forwardEmailRecipient(id: $id, input: $input) {
+               ...${finalFragment.operationName}
+          }
+        }
+      ${finalFragment.query}
+`;
+  return queryExecutor<{ recipient: EmailRecipient | undefined }>(query, {
+    id,
+    input,
+  })
+    .then(throwGQLErrors)
+    .then((result) => result.data.recipient)
+    .then(standardizeOptional);
 };

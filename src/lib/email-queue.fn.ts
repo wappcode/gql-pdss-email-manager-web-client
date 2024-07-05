@@ -287,6 +287,29 @@ export const pauseEmailQueue = (
     .then(standardizeOptional);
 };
 
+export const deleteCanceledEmailQueueRecipients = (
+  queryExecutor: QueryExecutor,
+  id: string,
+  fragment?: GQLQueryData
+): Promise<EmailQueue | undefined> => {
+  const finalFragment = fragment
+    ? queryDataToQueryObject(fragment)
+    : getFragmentEmailQueue();
+  const query = gqlparse`
+
+        mutation MutationDeleteCanceledEmailQueueRecipients($id: ID!) {
+            queue: deleteCanceledEmailQueueRecipients(id: $id){
+              ...${finalFragment.operationName}
+          }
+        }
+    ${finalFragment.query}
+  `;
+  return queryExecutor<{ queue: EmailQueue | undefined }>(query, { id })
+    .then(throwGQLErrors)
+    .then((result) => result.data.queue)
+    .then(standardizeOptional);
+};
+
 export const createEmailQueueInputFormEmailQueue = (queue: EmailQueue) => {
   const input: Partial<EmailQueueInput> = {
     title: queue.title,

@@ -39,8 +39,15 @@ export interface EmailRecipientInput {
   priority: number;
   params: string;
   status: EmailRecipientStatus;
-  sent: boolean;
   sendingDate: string;
   ownerCode?: string;
   queue: string;
+}
+export interface EmailRecipientForwardInput {
+  name?: string;
+  email: string;
+  sendingDate: string;
+  status: EmailRecipientStatus;
+  priority: number;
+  isOwnerReference?: boolean;
 }
