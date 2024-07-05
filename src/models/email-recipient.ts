@@ -8,11 +8,24 @@ export type EmailRecipientStatus =
   | "SENT"
   | "ERROR";
 
-export interface EmailRecipient<P = unknown> extends EmailEntityModel {
+/**
+ * The first string is the key and the second is the value
+ * The key must be lowercase and without special characters like tildes or whitespaces instead use an underscore character
+ * Expected value example : [ ["key1", "value1"], ["key_2", "value2"] ]
+ */
+export type EmailRecipientParamType = [string, string];
+
+export const EMAIL_RECIPIENT_PARAM_DELIMITER_START = "|#";
+export const EMAIL_RECIPIENT_PARAM_DELIMITER_END = "#|";
+// if avobe values are changed, the pattern must be updated
+export const EMAIL_RECIPIENT_PARAM_REPLACEMENT_PATTERN =
+  "\\|#[a-zA-Z0-9-_\\.]+#\\|";
+
+export interface EmailRecipient extends EmailEntityModel {
   email: string;
   name: string;
   priority: number;
-  params: P;
+  params: EmailRecipientParamType[];
   status: EmailRecipientStatus;
   sent: boolean;
   sendingDate: Date;
