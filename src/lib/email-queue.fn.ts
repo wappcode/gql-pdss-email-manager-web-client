@@ -184,6 +184,67 @@ export const deleteEmailQueue = (
     .then((result) => result.data.queue);
 };
 
+/**
+ * Cancela a los elementos de una lista solo aplica a los que estan en estatus PAUSE y WAITING
+ * @param queryExecutor
+ * @param id
+ * @returns
+ */
+export const cancelEmailQueue = (
+  queryExecutor: QueryExecutor,
+  id: string
+): Promise<boolean> => {
+  const query = gqlparse`
+
+        mutation MutationCancelEmailQueue($id: ID!) {
+            success: cancelEmailQueue(id: $id)
+        }
+        `;
+  return queryExecutor<{ success: boolean }>(query, { id })
+    .then(throwGQLErrors)
+    .then((result) => result.data.success);
+};
+/**
+ * Activa o pone estatus WAITING a los elementos de una lista solo aplica a los que estan en estatus PAUSE
+ * @param queryExecutor
+ * @param id
+ * @returns
+ */
+export const resumeEmailQueue = (
+  queryExecutor: QueryExecutor,
+  id: string
+): Promise<boolean> => {
+  const query = gqlparse`
+
+        mutation MutationresumeEmailQueue($id: ID!) {
+            success: resumeEmailQueue(id: $id)
+        }
+        `;
+  return queryExecutor<{ success: boolean }>(query, { id })
+    .then(throwGQLErrors)
+    .then((result) => result.data.success);
+};
+/**
+ * Pausa los elmentos de una lista solo aplica a los que estan en estatus WAITING
+ * @param queryExecutor
+ * @param id
+ * @returns
+ */
+export const pauseEmailQueue = (
+  queryExecutor: QueryExecutor,
+  id: string
+): Promise<boolean> => {
+  const query = gqlparse`
+
+        mutation MutationpauseEmailQueue($id: ID!) {
+            success: pauseEmailQueue(id: $id)
+        }
+        `;
+  return queryExecutor<{ success: boolean }>(query, { id })
+    .then(throwGQLErrors)
+    .then((result) => result.data.success);
+};
+
 export const createEmailQueueInputFormEmailQueue = (queue: EmailQueue) => {
   const input: Partial<EmailQueueInput> = {
     title: queue.title,

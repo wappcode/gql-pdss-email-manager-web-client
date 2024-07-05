@@ -1,6 +1,6 @@
 {
   "name": "gql-pdss-email-manager-web-client",
-  "private": true,
+  "private": false,
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/gql-pdss-email-manager-web-client.umd.cjs",
