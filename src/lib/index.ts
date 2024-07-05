@@ -1,3 +1,4 @@
+export * from "./email-message-utilities.fn.ts";
 export * from "./email-message.fn";
 export * from "./email-queue.fn";
 export * from "./email-recipient.fn";
