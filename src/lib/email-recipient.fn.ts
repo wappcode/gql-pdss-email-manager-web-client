@@ -10,10 +10,14 @@ import {
   throwGQLErrors,
 } from "graphql-client-utilities";
 import { EmailRecipient, EmailRecipientInput } from "../models/email-recipient";
+import { standardizeEmailQueue } from "./standardize-email-queue.fn";
 import { standardizeEmailRecipient } from "./standardize-email-recipient.fn";
 
 const standardizeForced = (recipient: EmailRecipient): EmailRecipient => {
   const standardized = standardizeEmailRecipient(recipient);
+  if (standardized.queue) {
+    standardized.queue = standardizeEmailQueue(standardized.queue);
+  }
   return standardized;
 };
 

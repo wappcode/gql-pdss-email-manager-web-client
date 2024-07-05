@@ -10,11 +10,26 @@ import {
   throwGQLErrors,
 } from "graphql-client-utilities";
 import { EmailQueue, EmailQueueInput } from "../models/email-queue";
+import { standardizeEmailMessage } from "./standardize-email-message.fn";
 import { standardizeEmailQueue } from "./standardize-email-queue.fn";
+import { standardizeEmailRecipient } from "./standardize-email-recipient.fn";
+import { standardizeEmailSenderAccount } from "./standardize-email-sender-account.fn";
 
 const standardizeForce = (queue: EmailQueue): EmailQueue => {
   const standar = standardizeEmailQueue(queue);
-  return standar;
+  const recipients = (standar.recipients ?? []).map(standardizeEmailRecipient);
+  if (standar.message) {
+    standar.message = standardizeEmailMessage(standar.message);
+  }
+  if (standar.senderAccount) {
+    standar.senderAccount = standardizeEmailSenderAccount(
+      standar.senderAccount
+    );
+  }
+  if (standar.message) {
+    standar.message = standardizeEmailMessage(standar.message);
+  }
+  return { ...standar, recipients };
 };
 
 const standardizeOptional = (queue?: EmailQueue): EmailQueue | undefined => {
