@@ -29,7 +29,7 @@ export const replaceEmailRecipientParameters = (
       EMAIL_RECIPIENT_PARAM_DELIMITER_START +
       key +
       EMAIL_RECIPIENT_PARAM_DELIMITER_END;
-    result = result.replace(search, value);
+    result = result.replaceAll(search, value);
   }
 
   return result;
